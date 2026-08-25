@@ -1,0 +1,83 @@
+# R
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.venv/
+.ipynb_checkpoints/
+
+# Large figures / intermediate images (not needed in repo)
+*.tiff
+*.tif
+*.png
+*.pdf
+
+# OS
+.DS_Store
+
+# Local analysis inputs / generated outputs (place on disk, do not commit)
+Step3_Enrichment/data/
+Step3_Enrichment/figures/
+Step9_CIBERSORT/data/
+Step9_CIBERSORT/results/
+Step9_CIBERSORT/figures/
+Step10_Docking/ligands/
+Step10_Docking/receptors/
+Step10_Docking/results/
+Step10_Docking/figures/
+Step10_Docking/plos_tiff/
+
+# Step1 large generated output (regenerate via Step1 or Zenodo deposit)
+Step1_DEG/expression_combat_corrected.csv
+Step1_DEG/data/# R
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.venv/
+.ipynb_checkpoints/
+
+# Large figures / intermediate images (not needed in repo)
+*.tiff
+*.tif
+*.png
+*.pdf
+
+# OS
+.DS_Store
+
+# Local analysis inputs / generated outputs (place on disk, do not commit)
+Step3_Enrichment/data/
+Step3_Enrichment/figures/
+Step9_CIBERSORT/data/
+Step9_CIBERSORT/results/
+Step9_CIBERSORT/figures/
+Step10_Docking/ligands/
+Step10_Docking/receptors/
+Step10_Docking/results/
+Step10_Docking/figures/
+Step10_Docking/plos_tiff/
+
+# Step1 large generated output (regenerate via Step1 or Zenodo deposit)
+Step1_DEG/expression_combat_corrected.csv
+Step1_DEG/data/
