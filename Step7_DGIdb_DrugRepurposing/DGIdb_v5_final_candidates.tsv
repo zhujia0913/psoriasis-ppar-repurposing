@@ -1,0 +1,12 @@
+Gene	Drug	InteractionScore	Sources	PMIDs	Current_Indication	Drug_Class
+ADIPOQ	Spironolactone	1.631	NCI	1	心衰/高血压/水肿	醛固酮拮抗剂
+ADIPOQ	Fenofibrate Micronized	1.004	NCI	1	高甘油三酯血症	贝特类降脂药
+APOE	Fluvastatin	0.270	PharmGKB	2	高胆固醇血症	他汀类
+APOE	Irbesartan	0.225	NCI	1	高血压/糖尿病肾病	ARB
+APOE	Pravastatin Sodium	0.133	PharmGKB	3	高胆固醇血症	他汀类
+BCL2	Edaravone	0.127	TTD	0	肌萎缩侧索硬化症(ALS)	自由基清除剂
+BCL2	Isotretinoin	0.119	NCI	2	重度痤疮	口服维A酸
+BCL2	Ursodiol	0.080	NCI	1	胆结石/原发性胆汁性肝硬化	胆汁酸
+APOE	Fenofibrate Micronized	0.069	PharmGKB	1	高甘油三酯血症	贝特类降脂药
+BCL2	Erythromycin	0.055	NCI	1	细菌感染	大环内酯抗生素
+BCL2	Pentoxifylline	0.036	NCI	1	外周血管疾病	血流改善剂

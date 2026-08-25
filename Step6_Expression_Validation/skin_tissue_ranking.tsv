@@ -1,0 +1,9 @@
+Gene	Rank	Tissue	Median_TPM	Max_TPM	Percent_of_Max
+ADIPOQ	9	Skin_Not_Sun_Exposed_Suprapubic	1.457	564.667	0.26
+ADIPOQ	7	Skin_Sun_Exposed_Lower_leg	5.09	564.667	0.9
+APOE	20	Skin_Not_Sun_Exposed_Suprapubic	406.342	3543.25	11.47
+APOE	22	Skin_Sun_Exposed_Lower_leg	318.601	3543.25	8.99
+PLIN1	17	Skin_Not_Sun_Exposed_Suprapubic	3.504	970.215	0.36
+PLIN1	9	Skin_Sun_Exposed_Lower_leg	10.075	970.215	1.04
+BCL2	24	Skin_Not_Sun_Exposed_Suprapubic	5.194	49.689	10.45
+BCL2	25	Skin_Sun_Exposed_Lower_leg	5.156	49.689	10.38

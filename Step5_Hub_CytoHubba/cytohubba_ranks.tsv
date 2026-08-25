@@ -1,0 +1,16 @@
+Gene	MCC	DMNC	MNC	Degree	EPC	Betweenness	Stress	Radiality	Closeness	EcCentricity	BottleNeck	Direction
+ADIPOQ	-	-	1	1	-	1	-	-	1	-	-	DOWN
+APOE	-	-	2	2	-	2	-	-	2	-	-	DOWN
+PLIN1	-	-	3	3	-	4	-	-	3	-	-	DOWN
+BCL2	-	-	3	3	-	6	-	-	3	-	-	DOWN
+CXCR4	-	-	5	5	-	8	-	-	5	-	-	UP
+ANGPTL4	-	-	5	5	-	9	-	-	5	-	-	UP
+RBP4	-	-	7	7	-	7	-	-	7	-	-	DOWN
+HMOX1	-	-	7	7	-	10	-	-	7	-	-	UP
+LDLR	-	-	13	7	-	3	-	-	10	-	-	UP
+PDK4	-	-	7	7	-	10	-	-	11	-	-	DOWN
+CXCL13	-	-	7	7	-	10	-	-	12	-	-	UP
+HBEGF	-	-	13	12	-	5	-	-	9	-	-	UP
+FABP5	-	-	11	12	-	10	-	-	12	-	-	UP
+NAMPT	-	-	11	12	-	10	-	-	12	-	-	UP
+INSIG1	-	-	13	15	-	10	-	-	15	-	-	DOWN

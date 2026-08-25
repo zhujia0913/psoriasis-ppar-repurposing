@@ -1,0 +1,44 @@
+=== 标准化 DEG 分析管线摘要 (v2 AnnoProbe) ===
+
+数据集:
+  GSE13355: 122 样本 (NN=64, PP=58)
+  GSE14905: 54 样本 (NN=21, PP=33)
+  GSE78097: 33 样本 (NN=6, PP=27)
+
+总样本: 209 (NN=91, PP=118)
+基因交集: 20188
+
+DEG (|logFC|>1, FDR<0.05): 759 (Up=454, Down=305)
+FDR 范围: 3.29e-133 – 6.22e-06
+|logFC| 范围: 1.00 – 8.77
+
+Top 20 DEG:
+             Gene    logFC   AveExpr     adj.P.Val regulation
+S100A7A   S100A7A 7.305964  8.965789 3.290605e-133         Up
+PI3           PI3 6.658337 10.501551 1.984690e-129         Up
+AKR1B10   AKR1B10 5.473311  9.198199 6.994918e-128         Up
+SERPINB4 SERPINB4 8.772005  9.386051 6.232562e-122         Up
+C10orf99 C10orf99 4.989682  9.548104 4.029325e-121         Up
+S100A9     S100A9 5.893450 11.547515 7.346587e-116         Up
+IL36G       IL36G 4.861649  9.604461 4.974471e-114         Up
+S100A12   S100A12 5.902552  7.809416 7.508876e-112         Up
+KYNU         KYNU 4.474887  8.551781 3.510162e-110         Up
+HPSE         HPSE 3.896323  8.581837 5.797895e-110         Up
+SPRR2C     SPRR2C 5.966078  7.473122 3.491937e-109         Up
+SERPINB3 SERPINB3 5.253530 11.290576 1.685760e-105         Up
+LCE3D       LCE3D 4.584750 11.265406 7.347154e-102         Up
+TCN1         TCN1 6.159357  8.762052  1.777273e-98         Up
+PLBD1       PLBD1 1.862543 10.672419  5.107925e-93         Up
+GDA           GDA 4.077988  7.258206  3.208203e-91         Up
+TGM1         TGM1 2.476643  9.643911  2.017581e-87         Up
+KRT16       KRT16 4.004409 11.334635  1.953488e-86         Up
+ARNTL2     ARNTL2 2.180821  8.089384  6.259646e-86         Up
+RGS20       RGS20 2.581923  7.052086  6.413846e-86         Up
+
+方法引用:
+  归一化: RMA (Irizarry et al. 2003, Biostatistics)
+  批次校正: ComBat with mod (Johnson et al. 2007, Biostatistics)
+  注释: AnnoProbe v0.1.0 idmap(type='bioc') (Zeng JM et al., Bioconductor hgu133plus2.db)
+  多探针压缩: MaxMean (Miller et al. 2011, BMC Bioinformatics)
+  差异检验: limma eBayes(trend=TRUE) (Ritchie et al. 2015, NAR)
+  多重校正: Benjamini-Hochberg FDR (Benjamini & Hochberg 1995)
