@@ -1,7 +1,7 @@
 # =============================================================================
 # CIBERSORT 组间差异图（文献风格：散点+jitter+中位数+IQR）
 # 对齐文献 Fig 6C 风格
-# Font: Arial | Output: 300 DPI (BMC 单文件上限 10 MB，3000 DPI 会超限)
+# Font: Arial | Output: 300 DPI (单文件上限 10 MB，3000 DPI 会超限)
 # =============================================================================
 
 suppressPackageStartupMessages({
@@ -21,7 +21,7 @@ font_add("Arial",
          italic     = "/System/Library/Fonts/Supplemental/Arial Italic.ttf",
          bolditalic = "/System/Library/Fonts/Supplemental/Arial Bold Italic.ttf")
 
-# --- 1. 路径 (BMC投递版: 相对本脚本运行位置，可在任意机器复跑) ---
+# --- 1. 路径 (相对本脚本运行位置，可在任意机器复跑) ---
 resolve_base <- function() {
   for (b in c(".", "..")) {
     if (file.exists(file.path(b, "results", "cibersort_results_with_group.tsv"))) {
@@ -136,7 +136,7 @@ p <- p + annotation_custom(legend_grob,
 
 # --- 8. 保存 ---
 # 物理尺寸 16 x 6 inches (与 PDF 一致)
-# BMC 要求约 300 dpi 即可；3000 dpi 会产生 >10 MB 的单文件，被投稿系统拒绝
+# 约 300 dpi 即可；3000 dpi 会产生 >10 MB 的单文件，被投稿系统拒绝
 
 # PNG @ 300 DPI -> 4800 x 1800 pixels (远低于 10 MB，且满足 300 dpi)
 png(file.path(figures_dir, "violin_cibersort_19cells_literature.png"),

@@ -2,7 +2,7 @@
 # 从最终数据读取，使用与 run_cibersort_analysis_rerun.R 一致且已修复的算法。
 # 仅重画 Step9 图件 (Fig3 小提琴 / Fig4 Hub-免疫热图)，不重跑 CIBERSORT。
 # 从最终数据读取，使用与 run_cibersort_analysis_rerun.R 一致且已修复的算法。
-# 路径设置 (BMC投递版: 自动适配运行目录)
+# 路径设置 (自动适配运行目录)
 resolve_base <- function() {
   for (b in c(".", "..")) {
     if (file.exists(file.path(b, "raw_data", "expression_pre_combat.csv"))) return(normalizePath(b))
@@ -86,7 +86,7 @@ pheatmap::pheatmap(cor_plot, display_numbers = display_txt, cluster_cols = TRUE,
                    breaks = seq(-0.6, 0.6, length.out = 101),
                    main = "Hub genes x Immune cells (Spearman rho)")
 dev.off()
-# 矢量 PDF (BMC 首选; 与 PNG/TIFF 同源，含 Rho 数值 + 显著性星号)
+# 矢量 PDF (多数期刊首选; 与 PNG/TIFF 同源，含 Rho 数值 + 显著性星号)
 pdf(file.path(figures_dir, "heatmap_hub_immune_cibersort.pdf"), width = 10, height = 6.5)
 pheatmap::pheatmap(cor_plot, display_numbers = display_txt, cluster_cols = TRUE, cluster_rows = TRUE,
                    fontsize_row = 12, fontsize_col = 11, fontsize_number = 9, number_color = "black",

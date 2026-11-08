@@ -22,7 +22,7 @@ print("Opening PNG ...")
 img = Image.open(src).convert("RGB")  # 白底合成，减小体积
 print(f"  size: {img.size[0]}x{img.size[1]}, mode: {img.mode}")
 
-# 300 DPI (BMC 要求约 300 dpi；3000 dpi 会超出 10 MB 单文件上限)
+# 300 DPI (期刊通用要求约 300 dpi；3000 dpi 会超出 10 MB 单文件上限)
 print("Saving TIFF with LZW compression, 300 DPI ...")
 img.save(tiff_out, format="TIFF", dpi=(300, 300), compression="tiff_lzw")
 img.close()

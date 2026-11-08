@@ -16,7 +16,7 @@ library(tidyr)
 library(ggpubr)
 library(corrplot)
 
-# --- 1. 路径设置 (BMC投递版: 自动适配运行目录, 可在任意机器直接复跑) ---
+# --- 1. 路径设置 (自动适配运行目录, 可在任意机器直接复跑) ---
 # 支持两种运行方式: 在 免疫浸润/ 根目录下运行, 或在 scripts/ 子目录下运行
 resolve_base <- function() {
   for (b in c(".", "..")) {

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Step9 免疫浸润结果验证脚本 (独立复算, 不依赖 R) — BMC 投递版
+Step9 免疫浸润结果验证脚本 (独立复算, 不依赖 R)
 用法: /usr/bin/python3 scripts/verify_step9_outputs.py
 作用:
   1) 校验 CIBERSORT 细胞比例参数合法性 (形状/非负/每行和≈1)

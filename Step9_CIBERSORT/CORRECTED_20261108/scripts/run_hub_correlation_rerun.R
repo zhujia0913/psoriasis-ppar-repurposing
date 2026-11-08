@@ -5,7 +5,7 @@
 # 修正陈旧的 hub_immune_correlation_cibersort.tsv (原 Jun 29 版本不一致)。
 # =============================================================================
 
-# --- 路径设置 (BMC投递版: 自动适配运行目录, 可在任意机器直接复跑) ---
+# --- 路径设置 (自动适配运行目录, 可在任意机器直接复跑) ---
 resolve_base <- function() {
   for (b in c(".", "..")) {
     if (file.exists(file.path(b, "raw_data", "expression_pre_combat.csv"))) return(normalizePath(b))
