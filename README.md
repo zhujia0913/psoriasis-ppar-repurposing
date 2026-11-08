@@ -1,4 +1,4 @@
-#  ppsoriasis-ppar-repurposing
+# psoriasis-ppar-repurposing
 
 Analysis code and pipelines accompanying the manuscript
 *"Integrated transcriptomic and network analysis of peroxisome
