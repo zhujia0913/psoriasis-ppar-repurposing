@@ -1,3 +1,14 @@
+=============================================================================
+# !! DEPRECATED (8 November 2026) - DO NOT USE FOR REPRODUCTION
+# This legacy script contains two implementation bugs:
+#   (1) as.vector(cor_hub) flattens the 4x22 correlation matrix column-wise,
+#       while gene/cell labels are generated row-wise -> Rho and P mismatched.
+#   (2) cor.test(method="spearman") exact p-values underflow to exactly 0.
+# Authoritative corrected scripts and results are in:
+#   Step9_CIBERSORT/CORRECTED_20261108/scripts/ and .../results/
+# They match the manuscript, its hub-immune supplementary table and Figs 12-13.
+# =============================================================================
+
 # =============================================================================
 # CIBERSORT 免疫浸润分析
 # 对齐 Liang et al. 2023 (J Orthop Surg Res) 方法学
