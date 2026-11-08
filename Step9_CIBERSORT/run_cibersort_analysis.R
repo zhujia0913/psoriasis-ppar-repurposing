@@ -1,4 +1,4 @@
-=============================================================================
+#=============================================================================
 # !! DEPRECATED (8 November 2026) - DO NOT USE FOR REPRODUCTION
 # This legacy script contains two implementation bugs:
 #   (1) as.vector(cor_hub) flattens the 4x22 correlation matrix column-wise,
