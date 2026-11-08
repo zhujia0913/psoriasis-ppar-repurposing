@@ -1,21 +1,35 @@
-# psoriasis-ppar-repurposing
+#  psoriasis-ppar-repurposing
 
 Analysis code and pipelines accompanying the manuscript
-*"A PPAR-centric framework for lipid–immune crosstalk in psoriasis and
-repositioned therapeutics"* (submitted to PLOS ONE).
+*"Integrated transcriptomic and network analysis of peroxisome
+proliferator-activated receptor target genes identifies repurposable drug
+candidates in psoriasis"* (submitted to BMC Medical Genomics).
 
-This repository provides the **complete, reproducible R/Python scripts for all
-ten analytical steps** that generate the figures and analytic tables reported in
-the paper — from raw GEO retrieval through differential expression, enrichment,
-network/hub-gene identification, immune deconvolution, drug repositioning, and
-molecular docking. All scripts resolve paths **relative to their own location**,
-so the repository is self-contained: clone it, place the required public input
-files (see below) in the indicated folders, and run.
+> **Correction notice (8 November 2026) — Step 9 / CIBERSORT.** The legacy
+> `Step9_CIBERSORT/run_cibersort_analysis.R` contained two implementation bugs:
+> (i) `as.vector(cor_hub)` flattened a 4 × 22 matrix column-wise while gene/cell
+> labels were generated row-wise, systematically mismatching Rho and P values;
+> (ii) `cor.test(method = "spearman")` exact p-values underflowed to exactly 0
+> for strong correlations. Both are fixed in
+> `Step9_CIBERSORT/CORRECTED_20261108/scripts/` (row-wise flattening via
+> `as.vector(t(...))` and a t-approximation `2*pt(-abs(tstat), n-2)`). The
+> corrected results (`CORRECTED_20261108/results/hub_immune_correlation_cibersort.tsv`,
+> 41 significant pairs) are authoritative and match the submitted manuscript,
+> Additional file 1, and Figs 12–13. The legacy script is retained for
+> provenance only and must not be used for reproduction.
+
+This repository provides the **complete, reproducible R/Python analysis scripts
+for all ten analytical steps** that generate the findings and analytic tables
+reported in the paper — from raw GEO retrieval through differential expression,
+enrichment, network/hub-gene identification, immune deconvolution, drug
+repositioning, and molecular docking. All scripts resolve paths **relative to
+their own location**, so the repository is self-contained: clone it, place the
+required public input files (see below) in the indicated folders, and run.
 
 > **Figure numbering (final manuscript):** Figure 14 = molecular docking of
 > fenofibrate to PPARα; Figure 15 = molecular docking of pravastatin to PPARα.
 > The earlier DGIdb drug–gene *network* figure is **not** included as a numbered
-> figure; the DGIdb interaction results are reported in Table 2 / S2 Table.
+> figure; the DGIdb interaction results are reported in Table 2 / Additional file 2.
 
 ---
 
@@ -27,27 +41,19 @@ psoriasis-ppar-repurposing/
 ├── .gitignore
 ├── Step1_DEG/                  GEO retrieval, RMA, ComBat, limma DEG calling (Fig 2–4, 759 DEGs)
 │   ├── deg_standard_pipeline_v2_AnnoProbe.R   GEO → RMA → ComBat → limma (→ expression_combat_corrected.csv, DEG lists)
-│   ├── pca_combat_v2_systematic.R             Fig 2 PCA before/after ComBat
-│   ├── volcano_deg.R                           Fig 3 volcano plot
-│   └── heatmap_top100.R                        Fig 4 top-100 DEG heatmap
+│   └── pca_combat_v2_systematic.R_DEPRECATED   ⚠ OLD: synthetic pre-ComBat coords — DO NOT USE
 ├── Step2_PPAR_Overlap/          PPARgene ∩ DEG → 18-gene set (Fig 5)
-│   ├── extract_ppargene.py                    intersect PPARgene targets with DEGs → 18 genes
-│   └── draw_venn.py                            Fig 5 Venn diagram
+│   └── extract_ppargene.py                    intersect PPARgene targets with DEGs → 18 genes
 ├── Step3_Enrichment/           GO & KEGG enrichment of 18 genes (Fig 6, 7)
-│   ├── run_enrichment_18_final.R              core 18-gene enrichment → data/*.tsv
-│   ├── run_3x2_reference_style.R              Fig 6 GO 3×2 panel (Arial, 3000 DPI)
-│   ├── kegg_enrichment_plot.R                 Fig 7 KEGG plots
-│   └── fix_dpi_tiff.py                         PNG → TIFF (LZW)
+│   └── run_enrichment_18_final.R              core 18-gene enrichment → data/*.tsv
 ├── Step4_PPI_MCODE/            STRING PPI + MCODE module (Fig 8, 9)
-│   ├── mcode_cytohubba.py                      PPI construction + MCODE module detection
-│   ├── plot_ppi_network_hub.py                 Fig 8 PPI network
-│   └── plot_ppi_module1.py                     Fig 9 MCODE module
+│   └── mcode_cytohubba.py                      PPI construction + MCODE module detection
 ├── Step5_Hub_CytoHubba/        CytoHubba rank-sum hub genes (Fig 10)
 │   └── plot_ranksum_hub.py                      Fig 10 hub-gene rank-sum plot
 ├── Step6_Expression_Validation/  HPA/GTEx tissue expression (Table 1)
 │   ├── run_tau_dgidb_integration.R             TAU specificity index + DGIdb integration
 │   └── validate_hpa_expression.py             HPA validation
-├── Step7_DGIdb_DrugRepurposing/  DGIdb querying + 5-layer filtering (Table 2 / S2)
+├── Step7_DGIdb_DrugRepurposing/  DGIdb querying + 5-layer filtering (Table 2 / Additional file 2)
 │   └── DGIdb_v5_final_candidates.tsv           final 10 candidates
 ├── Step8_TRRUST_TF_Network/     TRRUST TF regulatory network (Fig 11)
 │   ├── scripts/build_trrust_network.py         build TF–hub network from TRRUST
@@ -55,22 +61,24 @@ psoriasis-ppar-repurposing/
 │   ├── raw_data/trrust_rawdata_human.tsv       TRRUST v2 raw dump
 │   └── figures/                                network tables
 ├── Step9_CIBERSORT/            Immune-cell deconvolution (Fig 12, 13)
-│   ├── run_cibersort_analysis.R               CIBERSORTx on psoriatic vs control
-│   ├── plot_violin_literature_style.R          Fig 12 22-cell violin (Arial, 3000 DPI)
-│   ├── redraw_heatmap_hub_immune.R             Fig 13 hub × immune Spearman heatmap
-│   └── fix_dpi_tiff.py                         PNG → TIFF (LZW)
+│   ├── CORRECTED_20261108/     authoritative Step 9 scripts + results (USE THIS)
+│   └── run_cibersort_analysis.R               DEPRECATED buggy version - do not use
 └── Step10_Docking/             Molecular docking (Fig 14 / 15)
     ├── batch_dock.py                           AutoDock Vina docking of 10 candidates → PPARα LBD
-    ├── sdf_to_pdbqt.py                         ligand prep (SDF → PDBQT)
-    ├── render_fenofibrate_3000dpi.py           PyMOL render of fenofibrate complex
-    ├── render_pravastatin_3000dpi.py           PyMOL render of pravastatin complex
-    └── composite_plos.py                        PLOS ONE–compliant TIFF composite (300 DPI, LZW)
+    └── sdf_to_pdbqt.py                         ligand prep (SDF → PDBQT)
 ```
 
 Each step reads inputs from and writes outputs to `data/` and/or `figures/`
 sub-folders **next to the script**. Raster images are not committed (see
 `.gitignore`); the small tabular intermediate products that support
 reproducibility are committed in each step's `data/` folder.
+
+**Note on figure-rendering scripts:** the 15 presentation-layer scripts that
+draw Fig 2–15 (PCA / volcano / heatmap / Venn / GO / KEGG / PPI / violin /
+Spearman-heatmap / PyMOL-render / composite scripts) are *not* included in this
+repository. They are not required to reproduce the reported quantitative
+results, which are produced by the analysis scripts listed above; they are
+archived separately outside this repository for reference.
 
 ---
 
@@ -83,7 +91,7 @@ place them in the indicated relative paths.
 | Input | Source / how to obtain | Place at |
 |-------|----------------------|----------|
 | **Raw GEO CEL files** (GSE13355, GSE14905, GSE78097) | Download from GEO; Affymetrix HG-U133 Plus 2.0 / GPL570. 209 skin samples. | `Step1_DEG/data/raw/` (set `RAW_DIR` in `deg_standard_pipeline_v2_AnnoProbe.R`) |
-| **ComBat-corrected expression matrix** (`expression_combat_corrected.csv`) | Generated by Step 1 (RMA → ComBat → limma). 68 MB; not committed. Regenerate via Step 1, or download from the Zenodo/Supporting Information deposit cited in the manuscript. | `Step1_DEG/expression_combat_corrected.csv` |
+| **ComBat-corrected expression matrix** (`expression_combat_corrected.csv`) | Generated by Step 1 (RMA → ComBat → limma). 68 MB; not committed. Regenerate via Step 1, or download from the Zenodo deposit cited in the manuscript (DOI to be added prior to acceptance). | `Step1_DEG/expression_combat_corrected.csv` |
 | **CIBERSORT LM22 signature matrix** (`LM22.txt`) | **License-restricted** — register at <https://cibersortx.stanford.edu/>. Cannot be redistributed in this repo. | `Step9_CIBERSORT/data/LM22.txt` (+ `CIBERSORT.R`) |
 | **PPARα LBD structure** (PDB **3VI8**, 1.75 Å) | Download from RCSB PDB (<https://www.rcsb.org/structure/3VI8>). Prepare receptor (remove water/ligand, add polar hydrogens) → `PPARa_receptor.pdbqt`. | `Step10_Docking/receptors/` |
 | **Ligand 3D structures** | Fetched automatically by `batch_dock.py` from PubChem (SDF, 3D) using the CIDs listed in the script (e.g. fenofibrate 3339, pravastatin 54687). | `Step10_Docking/ligands/` (created at runtime) |
@@ -106,24 +114,18 @@ TRRUST v2 (TF–target regulatory network), DGIdb v5.0 (drug–gene).
 cd Step1_DEG
 # place GEO CEL files in data/raw/ (see table above)
 Rscript deg_standard_pipeline_v2_AnnoProbe.R   # → expression_combat_corrected.csv, deg_results_*.tsv
-Rscript pca_combat_v2_systematic.R             # Fig 2
-Rscript volcano_deg.R                          # Fig 3
-Rscript heatmap_top100.R                       # Fig 4
 ```
 
 ### Step 2 — PPARgene ∩ DEG → 18 genes (Fig 5)
 ```bash
 cd Step2_PPAR_Overlap
 python extract_ppargene.py                     # → PPARgene_DEG_overlap_18.tsv
-python draw_venn.py                            # Fig 5
 ```
 
 ### Step 3 — Enrichment (Fig 6, 7)
 ```bash
 cd Step3_Enrichment
 Rscript run_enrichment_18_final.R      # writes data/GO_*.tsv, KEGG_enrichment.tsv
-Rscript run_3x2_reference_style.R      # reads data/, writes figures/ (PNG+PDF+TIFF)
-Rscript kegg_enrichment_plot.R         # reads data/, writes figures/
 ```
 Arial must be installed (macOS: `/System/Library/Fonts/Supplemental/Arial*.ttf`;
 other OS: adjust the `font_add()` paths or install Arial).
@@ -132,8 +134,6 @@ other OS: adjust the `font_add()` paths or install Arial).
 ```bash
 cd Step4_PPI_MCODE
 python mcode_cytohubba.py              # builds PPI, detects MCODE module
-python plot_ppi_network_hub.py         # Fig 8
-python plot_ppi_module1.py             # Fig 9
 ```
 
 ### Step 5 — Hub genes (Fig 10)
@@ -149,10 +149,10 @@ Rscript run_tau_dgidb_integration.R     # TAU specificity index + DGIdb integrat
 python validate_hpa_expression.py       # HPA expression summary → results/4hub_hpa_expression_summary.tsv
 ```
 
-### Step 7 — DGIdb drug repositioning (Table 2 / S2)
+### Step 7 — DGIdb drug repositioning (Table 2 / Additional file 2)
 ```bash
 cd Step7_DGIdb_DrugRepurposing
-# DGIdb_v5_final_candidates.tsv = final 10 candidates (Table 2 / S2)
+# DGIdb_v5_final_candidates.tsv = final 10 candidates (Table 2 / Additional file 2)
 # Raw API responses and the 5-layer filtering pipeline are documented in
 # METHODOLOGY.md; the DGIdb query script is not included in this repository.
 ```
@@ -163,14 +163,15 @@ cd Step8_TRRUST_TF_Network
 python scripts/build_trrust_network.py # Fig 11 (reads raw_data/, writes data/ & figures/)
 ```
 
-### Step 9 — CIBERSORT (Fig 12, 13)
+### Step 9 — CIBERSORT (Fig 12, 13) — USE THE CORRECTED VERSION
 ```bash
-cd Step9_CIBERSORT
-# place data/expression_combat_corrected.csv and data/LM22.txt (see table above)
-Rscript run_cibersort_analysis.R          # writes data/ + results/ + figures/
-Rscript plot_violin_literature_style.R    # Fig 12 → figures/ (3000 DPI TIFF)
-Rscript redraw_heatmap_hub_immune.R       # Fig 13 → figures/
+cd Step9_CIBERSORT/CORRECTED_20261108
+# place raw_data/expression_pre_combat.csv (68 MB; regenerate via Step 1),
+# data/sample_info.tsv (included) and data/LM22.txt (license-restricted)
+Rscript scripts/run_cibersort_analysis_rerun.R   # writes results/ + figures/
 ```
+The legacy `Step9_CIBERSORT/run_cibersort_analysis.R` is **deprecated**; see the
+Correction notice at the top of this README.
 
 ### Step 10 — Molecular docking (Fig 14, 15)
 ```bash
@@ -180,9 +181,6 @@ conda activate docking
 
 python batch_dock.py                      # docks 10 ligands → results/*_docked.pdbqt + logs
 python sdf_to_pdbqt.py                    # (helper) convert a single SDF → PDBQT
-python render_fenofibrate_3000dpi.py      # PyMOL → figures/fenofibrate_panelA/B_3000dpi.png
-python render_pravastatin_3000dpi.py      # PyMOL → figures/pravastatin_panelA/B_3000dpi.png
-python composite_plos.py                  # figures/ → plos_tiff/Figure_14/15_*.tif (300 DPI, LZW)
 ```
 
 ---
@@ -193,17 +191,17 @@ python composite_plos.py                  # figures/ → plos_tiff/Figure_14/15_
   showtext, grid, gtable, stringr, scales, patchwork, clusterProfiler,
   org.Hs.eg.db, enrichplot, pheatmap, reshape2, tidyr, ggpubr, corrplot,
   CIBERSORT (LM22). *(Steps 1, 3, 6, 9.)*
-- **Python** (≥ 3.8): Pillow (TIFF/DPI), matplotlib, pandas, numpy, networkx;
+- **Python** (≥ 3.8): matplotlib, pandas, numpy, networkx;
   PyMOL (rendering) and a docking environment with **AutoDock Vina ≥ 1.2**,
   **RDKit**, **Meeko** (e.g. a `conda` env named `docking`).
-  *(Steps 2, 4, 5, 7, 8, 10.)*
+  *(Steps 2, 4, 5, 8, 10.)*
 - Step 4 MCODE module detection uses the MCODE algorithm (igraph implementation
   or the Cytoscape MCODE plugin); the module intermediates are committed, so the
-  plotting scripts run without Cytoscape.
+  MCODE result can be regenerated without Cytoscape.
 
 ## Output format
 
-All raster figures meet the **PLOS ONE** specification: **TIFF, 300–600 DPI,
+All raster figures meet the **BMC** specification: **TIFF, 300–600 DPI,
 LZW compression, flattened RGB**. Combination figures (e.g. docking panels) use
 300 DPI; line/dot plots use up to 600 DPI. Figure fonts use **Arial** (8–12 pt).
 
@@ -213,12 +211,11 @@ All analysis code in this repository is released under the MIT license and is
 **publicly available**. The key intermediate analytic tables that support the
 manuscript's findings — the 759-gene DEG list, the 18-gene set, CIBERSORT immune
 scores, DGIdb candidates, and TRRUST edges — are provided both in each step's
-`data/` folder and as Supporting Information (S1–S3) accompanying the manuscript.
-The 68 MB ComBat-corrected expression matrix is regenerated by Step 1 or obtained
-from the Zenodo deposit cited in the manuscript. **Make the repository public (or
-archive a release on Zenodo) before acceptance.**
+`data/` folder and as Additional files 1–4 accompanying the manuscript. The
+68 MB Pre-ComBat expression matrix required by Step 9 is regenerated by Step 1
+or obtained from the Zenodo deposit cited in the manuscript (a version-stable
+archive with a DOI will be deposited prior to acceptance).
 
 ## License
 
-MIT (code). Supporting analytic tables (S1–S3) accompany the manuscript as
-Supporting Information.
+MIT (code). Analytic tables accompany the manuscript as Additional files 1–4.
