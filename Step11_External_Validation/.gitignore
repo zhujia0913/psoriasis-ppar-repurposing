@@ -1,0 +1,29 @@
+# Raw / intermediate data (fetched from ArrayExpress at runtime, not committed)
+data/*.rds
+data/*matrix*.gz
+data/*matrix*.txt
+data/E-GEOD-30999.processed.1.zip
+data/E-GEOD-30999.sdrf.txt
+data/CEL/
+data/*.CEL*
+data/*.CEL.gz
+
+# R session artefacts
+.RData
+.Rhistory
+.Rproj.user/
+*.Rproj
+
+# OS / editor
+Thumbs.db
+.DS_Store
+~$*
+
+# Regenerated figure artefacts (runtime output, not committed)
+figures/*.pdf
+figures/*.png
+figures/*.tif
+
+# Exception: the journal-ready reference figure IS archived (the root
+# .gitignore excludes *.tif for intermediate images).
+!results/Fig16_external_validation.tif
