@@ -111,7 +111,7 @@ place them in the indicated relative paths.
 | **Ligand 3D structures** | Fetched automatically by `batch_dock.py` from PubChem (SDF, 3D) using the CIDs listed in the script (e.g. fenofibrate 3339, pravastatin 54687). | `Step10_Docking/ligands/` (created at runtime) |
 | **DGIdb v5.0 drug–gene interactions** | Queried at <https://www.dgidb.org/>; raw response included as `dgidb_v5_4hub_raw_response.json`. | not required to re-run docking |
 | **TRRUST v2 raw data** (`trrust_rawdata_human.tsv`) | Downloaded from TRRUST; included in `Step8_TRRUST_TF_Network/raw_data/`. | — |
-| **GSE30999 series matrix** (external validation cohort) | Download from GEO (Affymetrix GPL570; 85 patients / 170 paired biopsies; ~12 MB). Not redistributed. | `Step11_External_Validation/data/GSE30999_series_matrix.txt.gz` (or fetched automatically by `scripts/00_fetch_data.R`) |
+| **GSE30999 processed files** (external validation cohort) | Download `E-GEOD-30999.processed.1.zip` (38 MB) + `E-GEOD-30999.sdrf.txt` from ArrayExpress / BioStudies (Affymetrix GPL570; 85 patients / 170 paired biopsies). Not redistributed. | `Step11_External_Validation/data/` (or set `GSE30999_DATA_DIR`; fetched automatically by `scripts/00_fetch_data.R`) |
 | **Enrichment gene list (18 genes)** | **Embedded directly in `run_enrichment_18_final.R`**. | — |
 | **GO / KEGG reference** (org.Hs.eg.db, KEGG) | Retrieved live by clusterProfiler / org.Hs.eg.db at runtime (internet required). | — |
 
@@ -201,16 +201,17 @@ python sdf_to_pdbqt.py                    # (helper) convert a single SDF → PD
 ### Step 11 — External validation in an independent cohort (GSE30999 / Fig 16)
 ```bash
 cd Step11_External_Validation
-Rscript scripts/00_fetch_data.R          # GEO download (~12 MB; internet required)
-Rscript scripts/01_preprocess.R          # probe annotation + 81 paired samples
+Rscript scripts/00_fetch_data.R          # ArrayExpress E-GEOD-30999 (38 MB; internet)
+Rscript scripts/01_preprocess.R          # MaxMean probe selection + 81 paired samples
 Rscript scripts/02_external_validation.R # paired Wilcoxon + DeLong AUC → results/ + figures/
 ```
-The pre-specified 18-gene and 4-hub inputs are in `scripts/input/`.
-`results/external_validation_table.xlsx` is a byte-identical reference copy of
-the supplementary external-validation table; see
-`Step11_External_Validation/README.md` for the reproducibility status of the
-regenerated outputs, and `Step11_External_Validation/results/reproducibility_check.tsv`
-for the reported-vs-regenerated comparison.
+The pre-specified 18-gene and 4-hub inputs, plus the 18 MaxMean representative
+probes, are in `scripts/input/`. `results/external_validation_table.xlsx` is a
+byte-identical reference copy of the supplementary external-validation table.
+All reported numbers are reproducible end to end from the code above; see
+`Step11_External_Validation/README.md` and
+`Step11_External_Validation/results/reproducibility_check.tsv` (R vs independent
+Python recomputation, 18/18 rows identical).
 
 ---
 

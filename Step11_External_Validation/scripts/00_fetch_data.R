@@ -2,88 +2,59 @@
 # =============================================================================
 # 00_fetch_data.R
 # -----------------------------------------------------------------------------
-# Purpose : Obtain the EXTERNAL VALIDATION cohort GSE30999 from NCBI GEO.
+# Purpose : Obtain the ArrayExpress / BioStudies processed files for
+#           E-GEOD-30999 (the ArrayExpress mirror of GEO series GSE30999).
+#           These are the exact inputs used for the published external
+#           validation statistics:
 #
-# Dataset : GSE30999
-#           - 85 patients with moderate-to-severe psoriasis
-#           - 170 paired lesional / non-lesional skin biopsies
-#           - Affymetrix HG-U133 Plus 2.0 (GPL570)
-#           - After QC, 81 complete pairs were retained for analysis
-#           (see manuscript Methods 2.2.11 / Results 3.11)
+#             E-GEOD-30999.processed.1.zip
+#                 170 per-sample tables (ID_REF / VALUE; 54,675 probes;
+#                 RMA-normalized log2 values rounded to two decimals)
+#             E-GEOD-30999.sdrf.txt
+#                 sample/phenotype table with individual, lesion status and
+#                 derived data file names
 #
-# REDISTRIBUTION NOTE:
-#   Raw/processed data from GEO are NOT redistributed inside this repository.
-#   Run this script (requires internet access + Bioconductor) to fetch them.
-#   The resulting .rds files are git-ignored (see .gitignore at repo root).
+# REDISTRIBUTION NOTE: no source data are committed to this repository.
+#   Files are read from `data/` by default, or from the directory given in
+#   the environment variable GSE30999_DATA_DIR. Missing files are downloaded
+#   from the EBI mirror. The .rds objects produced by 01_preprocess.R are
+#   git-ignored.
 #
-# Output  : data/gse30999_expression.rds  - expression matrix, probes x samples (log2, RMA)
-#           data/gse30999_pheno.rds       - data.frame of sample metadata
-#
-# Usage   : Rscript scripts/00_fetch_data.R
-#
-# Provenance: external-validation stage of the psoriasis PPAR drug-repurposing
-#             study. Journal-independent: no target journal is assumed.
-#             Verified against R 4.5.0 / GEOquery 2.80.0; getGSEMatrix() was
-#             removed from current GEOquery, so getGEO(GSEMatrix = TRUE) is used.
+# Usage : Rscript scripts/00_fetch_data.R
 # =============================================================================
 
-suppressMessages({
-  if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-  if (!requireNamespace("GEOquery", quietly = TRUE))
-    BiocManager::install("GEOquery")
-  library(GEOquery)
-})
+BASE <- "https://ftp.ebi.ac.uk/pub/databases/arrayexpress/data/experiment/GEOD/E-GEOD-30999"
+FILES <- c("E-GEOD-30999.processed.1.zip", "E-GEOD-30999.sdrf.txt")
+EXPECTED_BYTES <- c(39798039L, 109410L)
+EXPECTED_MD5_SDRF <- "55d99d97c869f534a6f29ea6df85437e"
 
-gse_id  <- "GSE30999"
-destdir <- "data"
-dir.create(destdir, showWarnings = FALSE, recursive = TRUE)
+data_dir <- Sys.getenv("GSE30999_DATA_DIR", unset = "data")
+dir.create(data_dir, showWarnings = FALSE, recursive = TRUE)
 
-cat(sprintf("[00] Downloading %s from GEO (this may take a few minutes)...\n", gse_id))
-local_gz <- file.path(destdir, paste0(gse_id, "_series_matrix.txt.gz"))
-if (file.exists(local_gz)) {
-  cat(sprintf("[00] Using local series-matrix file: %s\n", local_gz))
-  gse_list <- getGEO(filename = local_gz, GSEMatrix = TRUE, getGPL = FALSE)
-} else {
-  gse_list <- getGEO(GEO = gse_id, GSEMatrix = TRUE, getGPL = FALSE,
-                     destdir = destdir)
-}
-gse <- if (is.list(gse_list) && !inherits(gse_list, "ExpressionSet")) gse_list[[1]] else gse_list
-
-# --- Extract expression matrix and pheno data -------------------------------
-# getGEO(GSEMatrix = TRUE) returns a list of ExpressionSet objects (one per platform).
-if (inherits(gse, "ExpressionSet")) {
-  expr.mat <- Biobase::exprs(gse)      # probes x samples
-  pdat     <- Biobase::pData(gse)      # sample metadata
-} else if (is.list(gse) && !is.data.frame(gse)) {
-  mat_df   <- gse[[1]]                 # series-matrix table (first column = probe)
-  expr.mat <- as.matrix(mat_df[, -1, drop = FALSE])
-  rownames(expr.mat) <- mat_df[[1]]
-  pdat     <- data.frame(sample_id = colnames(expr.mat), stringsAsFactors = FALSE)
-  # enrich with any phenoData attribute if present
-  if (!is.null(attr(mat_df, "phenoData")))
-    pdat <- cbind(pdat, attr(mat_df, "phenoData"))
-} else {
-  stop("[00] Unexpected object returned by getGEO(); inspect `gse` manually.")
+for (i in seq_along(FILES)) {
+  f <- FILES[i]
+  dest <- file.path(data_dir, f)
+  if (!file.exists(dest)) {
+    url <- paste0(BASE, "/", f)
+    cat(sprintf("[00] Downloading %s ...\n", url))
+    ok <- tryCatch({
+      suppressWarnings(download.file(url, dest, mode = "wb", quiet = TRUE))
+      file.exists(dest)
+    }, error = function(e) {
+      cat("  download failed:", conditionMessage(e), "\n"); FALSE
+    })
+    if (!ok) {
+      stop(sprintf(paste0("[00] Could not obtain %s. Download it manually from\n",
+                          "     %s\n     and place it in %s/"),
+                   f, BASE, data_dir))
+    }
+  }
+  size <- file.info(dest)$size
+  stopifnot(identical(as.numeric(size), as.numeric(EXPECTED_BYTES[i])))
+  cat(sprintf("[00] OK  %-38s %10.0f bytes  %s\n", f, size, dest))
 }
 
-cat(sprintf("[00] Retrieved %d probes x %d samples.\n", nrow(expr.mat), ncol(expr.mat)))
-cat("[00] Sample metadata columns:\n")
-print(colnames(pdat))
-
-saveRDS(expr.mat, file.path(destdir, "gse30999_expression.rds"))
-saveRDS(pdat,    file.path(destdir, "gse30999_pheno.rds"))
-cat(sprintf("[00] Saved expression + pheno to %s/.\n", destdir))
-
-# -----------------------------------------------------------------------------
-# OPTIONAL: re-derive RMA from raw CEL files (instead of the submitter matrix).
-# Uncomment if you prefer to normalize from scratch (matches "RMA-normalized"
-# wording in the manuscript). Requires the affy package and the .CEL.gz files
-# placed under data/CEL/.
-#
-#   if (!requireNamespace("affy", quietly = TRUE)) BiocManager::install("affy")
-#   library(affy)
-#   ab       <- ReadAffy(celfile.path = file.path(destdir, "CEL"))
-#   expr.mat <- exprs(rma(ab))   # RMA, log2 scale
-#   saveRDS(expr.mat, file.path(destdir, "gse30999_expression.rds"))
-# -----------------------------------------------------------------------------
+sdrf_md5 <- unname(tools::md5sum(file.path(data_dir, FILES[2])))
+stopifnot(identical(sdrf_md5, EXPECTED_MD5_SDRF))
+cat("[00] SDRF md5 matches the official ArrayExpress file.\n")
+cat("[00] Done. Next: Rscript scripts/01_preprocess.R\n")

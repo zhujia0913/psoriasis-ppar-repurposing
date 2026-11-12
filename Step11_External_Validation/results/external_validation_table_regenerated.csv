@@ -1,19 +1,19 @@
-"Gene","Direction_in_discovery_cohort","Median_expression_lesional","Median_expression_nonlesional","log2FC_lesional_over_nonlesional","AUC_nonlesional_vs_lesional","AUC_95CI_DeLong","Discrimination_maxAUC_1minusAUC","P_value_Wilcoxon_paired","Direction_consistent","BH_adjusted_FDR"
-"ADIPOQ","down",9.68,11.55,-1.87,0.7444,"0.667-0.821",0.7444,"1.16e-07",TRUE,"1.40e-07"
-"ALDH1A3","up",11.57,9.64,1.93,0.866,"0.804-0.928",0.866,"5.37e-13",TRUE,"1.38e-12"
-"ANGPTL4","up",5.54,3.2,2.34,0.9178,"0.877-0.959",0.9178,"8.54e-15",TRUE,"3.08e-14"
-"APOE","down",4.81,4.99,-0.18,0.8248,"0.761-0.889",0.8248,"7.62e-11",TRUE,"1.37e-10"
-"BCL2","down",2.32,2.32,0,0.5224,"0.433-0.612",0.5224,"1.55e-01",FALSE,"1.55e-01"
-"CXCL13","up",6.53,2.34,4.19,0.9675,"0.938-0.997",0.9675,"6.58e-15",TRUE,"3.08e-14"
-"CXCR4","up",2.55,2.28,0.27,0.855,"0.799-0.911",0.855,"2.77e-12",TRUE,"5.55e-12"
-"FABP5","up",14.99,13.49,1.5,0.9845,"0.968-1.000",0.9845,"7.93e-15",TRUE,"3.08e-14"
-"FADS2","down",2.205,3.765,-1.56,0.7445,"0.666-0.823",0.7445,"3.63e-09",TRUE,"5.93e-09"
-"HBEGF","up",5.465,3.535,1.93,0.9568,"0.924-0.990",0.9568,"6.34e-15",TRUE,"3.08e-14"
-"HMOX1","up",10.31,8.9,1.41,0.9159,"0.872-0.960",0.9159,"7.3e-14",TRUE,"2.19e-13"
-"INSIG1","down",6.76,7.46,-0.7,0.6994,"0.616-0.782",0.6994,"6.64e-08",TRUE,"8.54e-08"
-"LDLR","up",2.325,2.295,0.03,0.7271,"0.650-0.804",0.7271,"2.96e-07",TRUE,"3.33e-07"
-"MOGAT1","down",2.16,2.16,0,0.6315,"0.546-0.717",0.6315,"1.79e-06",FALSE,"1.90e-06"
-"NAMPT","up",11.525,9.56,1.965,0.9474,"0.911-0.984",0.9474,"5.67e-15",TRUE,"3.08e-14"
-"PDK4","down",2.48,2.98,-0.5,0.8942,"0.845-0.943",0.8942,"1.1e-12",TRUE,"2.47e-12"
-"PLIN1","down",8.08,10.68,-2.6,0.7708,"0.698-0.844",0.7708,"5.74e-09",TRUE,"8.61e-09"
-"RBP4","down",2.605,3.76,-1.155,0.7942,"0.727-0.862",0.7942,"2.51e-08",TRUE,"3.48e-08"
+Gene,Probe,Median_expression_lesional,Median_expression_nonlesional,log2FC_lesional_over_nonlesional,AUC_nonlesional_vs_lesional,P_value_Wilcoxon_paired,BH_adjusted_FDR,Implementation
+ADIPOQ,207175_at,9.68,11.55,-1.87,0.7443987197,1.1631601806306154e-07,1.231581367726534e-07,Python 3 / numpy + scipy (independent implementation)
+ALDH1A3,203180_at,11.57,9.64,1.93,0.8660265203,5.374770747113689e-13,9.674587344804639e-13,Python 3 / numpy + scipy (independent implementation)
+ANGPTL4,221009_s_at,8.6,4.08,4.52,0.9173144338,8.864999170679778e-15,2.6594997512039333e-14,Python 3 / numpy + scipy (independent implementation)
+APOE,212884_x_at,10.76,11.36,-0.6,0.8757811309,1.689278448696571e-12,2.3390009289644826e-12,Python 3 / numpy + scipy (independent implementation)
+BCL2,203685_at,9.35,10.54,-1.19,0.9432251181,2.264957076605705e-14,5.824175339843241e-14,Python 3 / numpy + scipy (independent implementation)
+CXCL13,205242_at,6.53,2.34,4.19,0.9674592288,6.583841696260611e-15,2.6594997512039333e-14,Python 3 / numpy + scipy (independent implementation)
+CXCR4,217028_at,13.35,12.65,0.7,0.8756287151,1.5794787890785071e-12,2.3390009289644826e-12,Python 3 / numpy + scipy (independent implementation)
+FABP5,202345_s_at,14.99,13.49,1.5,0.9845297973,7.928469757726547e-15,2.6594997512039333e-14,Python 3 / numpy + scipy (independent implementation)
+FADS2,202218_s_at,2.25,5.36,-3.11,0.7584971803,5.414429842522548e-10,6.96140979752899e-10,Python 3 / numpy + scipy (independent implementation)
+HBEGF,203821_at,9.33,6.23,3.1,0.9536655998,6.342341628184204e-15,2.6594997512039333e-14,Python 3 / numpy + scipy (independent implementation)
+HMOX1,203665_at,10.31,8.9,1.41,0.9158664838,7.303627956110786e-14,1.460725591222157e-13,Python 3 / numpy + scipy (independent implementation)
+INSIG1,201626_at,11.88,12.59,-0.71,0.8327998781,1.1155191430898917e-12,1.8253949614198227e-12,Python 3 / numpy + scipy (independent implementation)
+LDLR,202068_s_at,9.64,6.29,3.35,0.952065234,5.886212318628508e-15,2.6594997512039333e-14,Python 3 / numpy + scipy (independent implementation)
+MOGAT1,1553062_at,2.16,2.16,0.0,0.6314586191,1.793298237438403e-06,1.793298237438403e-06,Python 3 / numpy + scipy (independent implementation)
+NAMPT,217739_s_at,13.13,11.7,1.43,0.9618198445,5.666033954061742e-15,2.6594997512039333e-14,Python 3 / numpy + scipy (independent implementation)
+PDK4,225207_at,10.87,12.48,-1.61,0.9349946654,7.08637925654231e-14,1.460725591222157e-13,Python 3 / numpy + scipy (independent implementation)
+PLIN1,205913_at,8.08,10.68,-2.6,0.7708428593,5.740339026499346e-09,6.888406831799214e-09,Python 3 / numpy + scipy (independent implementation)
+RBP4,219140_s_at,2.92,4.51,-1.59,0.7908093278,1.9427215753353424e-08,2.1855617722522602e-08,Python 3 / numpy + scipy (independent implementation)
